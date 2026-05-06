@@ -1,0 +1,20 @@
+
+.env
+
+candidates.txt
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# APK decompile output
+resources/
+sources/
+
+# OS
+.DS_Store
+Thumbs.db
