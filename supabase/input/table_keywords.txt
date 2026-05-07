@@ -1,6 +1,4 @@
-# Keywords used to filter strings extracted from APK binary
-# A string matches if it contains ANY of these keywords
-# Project-specific keywords go in input/{project}/table_keywords.txt
+# Keywords used to filter strings
 
 user
 profile
