@@ -97,7 +97,7 @@ def print_table_summary(table, count, methods, schema):
 
 def enumerate_tables():
     try:
-        with open("candidates.txt") as f:
+        with open("./supabase/candidates.txt") as f:
             candidates = [line.strip() for line in f if line.strip()]
     except FileNotFoundError:
         print("candidates.txt not found. Run cara3a_extract.py first.")
