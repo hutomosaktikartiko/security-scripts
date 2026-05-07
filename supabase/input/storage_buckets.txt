@@ -1,0 +1,17 @@
+assets
+avatars
+content
+covers
+docs
+documents
+files
+icons
+image
+images
+media
+photos
+public
+storage
+thumbnails
+uploads
+videos

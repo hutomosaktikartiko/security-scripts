@@ -1,7 +1,6 @@
-
-.env
-
-supabase/output/
+# All .env except .env.example
+.env.*
+!.env.example
 
 # Python
 .venv/
@@ -18,3 +17,7 @@ sources/
 # OS
 .DS_Store
 Thumbs.db
+
+# Supabase
+supabase/output/
+supabase/input/*/
