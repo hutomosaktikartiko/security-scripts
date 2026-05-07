@@ -21,3 +21,6 @@ Thumbs.db
 # Supabase
 supabase/output/
 supabase/input/*/
+
+# Secrets scanner
+secrets/output/
