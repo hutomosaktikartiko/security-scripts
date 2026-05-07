@@ -1,0 +1,115 @@
+# Common Supabase RPC function names
+
+# User / profile
+get_user
+get_users
+get_profile
+get_profiles
+get_me
+me
+whoami
+current_user
+get_current_user
+find_user
+find_by_email
+get_user_by_email
+get_user_by_id
+
+# Auth / roles
+get_roles
+get_permissions
+check_permission
+verify_user
+is_registered
+check_email
+
+# Admin
+admin_get_users
+admin_list_users
+admin_delete_user
+admin_update_user
+admin_stats
+admin_dashboard
+list_users
+list_all_users
+get_all_users
+
+# Settings / config
+get_settings
+get_config
+get_app_config
+
+# Data / generic
+get_data
+get_all
+get_list
+get_by_id
+get_one
+search
+query
+
+# Notifications / feed
+get_notifications
+get_messages
+get_feed
+get_timeline
+get_announcements
+
+# Subscription / billing
+get_subscription
+check_subscription
+get_plan
+get_plans
+get_invoice
+get_invoices
+
+# Reports / export
+get_stats
+get_analytics
+get_reports
+generate_report
+export_data
+export_csv
+download_data
+
+# Utility
+ping
+health
+status
+version
+info
+debug
+test
+get_version
+check_health
+
+# Education / quiz
+get_questions
+get_question
+get_answers
+get_answer
+submit_answer
+check_answer
+submit_quiz
+finish_exam
+get_score
+calculate_score
+get_results
+get_result
+get_quiz
+get_exam
+get_tryout
+get_lesson
+get_chapter
+get_progress
+update_progress
+enroll
+unenroll
+get_enrollment
+check_enrollment
+get_leaderboard
+get_ranking
+get_top_scores
+get_subjects
+get_categories
+get_topics
