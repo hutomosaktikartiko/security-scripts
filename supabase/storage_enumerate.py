@@ -63,34 +63,55 @@ def extract_from_apk(so_path: str, keywords: list[str]) -> list[str]:
     return sorted(found)
 
 
-def extract_from_db(session: requests.Session, url: str, key: str) -> list[str]:
+def extract_from_db(session: requests.Session, url: str, key: str, project: str) -> list[str]:
     buckets     = set()
     url_pattern = re.compile(r'/storage/v1/object/(?:public|sign)/([^/?]+)/')
 
-    r = session.get(f"{url}/rest/v1/", headers=hdrs(key), timeout=8)
-    if r.status_code != 200:
+    open_tables_path = output_path(project, "open_tables.txt")
+    if not os.path.exists(open_tables_path):
         return []
 
-    tables = [p.lstrip("/") for p in r.json().get("paths", {}).keys()]
+    with open(open_tables_path) as f:
+        tables = [l.strip() for l in f if l.strip()]
+
     for table in tables:
         try:
+            # First fetch one row to discover which columns contain URLs
             r = session.get(
                 f"{url}/rest/v1/{table}",
-                headers={**hdrs(key), "Range": "0-4"},
+                headers={**hdrs(key), "Range": "0-0"},
                 params={"select": "*"},
                 timeout=8,
             )
             if r.status_code not in (200, 206):
                 continue
-            rows = r.json()
-            if not isinstance(rows, list):
+            sample = r.json()
+            if not isinstance(sample, list) or not sample:
                 continue
-            for row in rows:
-                for col, val in row.items():
-                    if "url" in col.lower() and isinstance(val, str):
+            url_cols = [c for c in sample[0] if "url" in c.lower()]
+            if not url_cols:
+                continue
+
+            # Fetch rows where at least one URL column is not null
+            for col in url_cols:
+                r = session.get(
+                    f"{url}/rest/v1/{table}",
+                    headers={**hdrs(key), "Range": "0-9"},
+                    params={"select": col, f"{col}": "not.is.null"},
+                    timeout=8,
+                )
+                if r.status_code not in (200, 206):
+                    continue
+                rows = r.json()
+                if not isinstance(rows, list):
+                    continue
+                for row in rows:
+                    val = row.get(col)
+                    if isinstance(val, str):
                         m = url_pattern.search(val)
                         if m:
                             buckets.add(m.group(1))
+                time.sleep(0.05)
         except Exception:
             continue
         time.sleep(0.1)
@@ -150,7 +171,11 @@ def main():
     parser.add_argument("--delay", type=float, default=0.3)
     args = parser.parse_args()
 
-    cfg     = load_env(args.env)
+    env_path = args.env
+    if not os.path.isabs(env_path) and not os.path.exists(env_path):
+        env_path = os.path.join(SCRIPT_DIR, env_path)
+
+    cfg     = load_env(env_path)
     project = cfg["PROJECT_NAME"]
     url     = cfg["SUPABASE_URL"]
     key     = cfg["SUPABASE_ANON_KEY"]
@@ -171,7 +196,7 @@ def main():
     src2 = extract_from_apk(so_path, src1)
     print(f"  [2/3] APK binary : {len(src2)}")
 
-    src3 = extract_from_db(session, url, key)
+    src3 = extract_from_db(session, url, key, project)
     print(f"  [3/3] DB hint    : {len(src3)}  {src3 if src3 else ''}")
 
     candidates = sorted(set(src1 + src2 + src3))

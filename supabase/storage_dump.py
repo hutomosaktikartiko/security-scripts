@@ -163,7 +163,11 @@ def main():
     parser.add_argument("--delay",  type=float, default=0.15)
     args = parser.parse_args()
 
-    cfg     = load_env(args.env)
+    env_path = args.env
+    if not os.path.isabs(env_path) and not os.path.exists(env_path):
+        env_path = os.path.join(SCRIPT_DIR, env_path)
+
+    cfg     = load_env(env_path)
     project = cfg["PROJECT_NAME"]
     url     = cfg["SUPABASE_URL"]
     key     = cfg["SUPABASE_ANON_KEY"]

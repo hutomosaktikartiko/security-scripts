@@ -1,0 +1,33 @@
+# Keywords used to filter strings extracted from APK binary
+# A string matches if it contains ANY of these keywords
+# Project-specific keywords go in input/{project}/table_keywords.txt
+
+user
+profile
+question
+answer
+segment
+topic
+subject
+subscription
+payment
+order
+result
+score
+quiz
+exam
+tryout
+lesson
+chapter
+category
+tag
+review
+comment
+notification
+setting
+config
+banner
+report
+session
+transaction
+invoice
