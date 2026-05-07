@@ -38,7 +38,7 @@ def extract_candidates():
         print(f"    {c}")
     
     # Save to file
-    with open("candidates.txt", "w") as f:
+    with open("./supabase/output/candidates.txt", "w") as f:
         f.write("\n".join(sorted(candidates)))
     print("\nSaved to candidates.txt")
 

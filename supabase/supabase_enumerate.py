@@ -97,10 +97,10 @@ def print_table_summary(table, count, methods, schema):
 
 def enumerate_tables():
     try:
-        with open("./supabase/candidates.txt") as f:
+        with open("./supabase/output/candidates.txt") as f:
             candidates = [line.strip() for line in f if line.strip()]
     except FileNotFoundError:
-        print("candidates.txt not found. Run cara3a_extract.py first.")
+        print("candidates.txt not found. Run extract tables first.")
         return
 
     print(f"\nTesting {len(candidates)} candidates...\n")
@@ -138,6 +138,11 @@ def enumerate_tables():
 
     for table, count, methods, schema in sorted(found, key=lambda x: -x[1]):
         print_table_summary(table, count, methods, schema)
+
+    # Save to file
+    with open("./supabase/output/open_tables.txt", "w") as f:
+        f.write("\n".join([table for table, _, _, _ in found]))
+    print(f"\nSaved to open_tables.txt")
 
 
 enumerate_tables()

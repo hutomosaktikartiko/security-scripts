@@ -1,7 +1,7 @@
 
 .env
 
-candidates.txt
+supabase/output/
 
 # Python
 .venv/
